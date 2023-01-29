@@ -1,0 +1,40 @@
+При обновлении изменяем файлы:
+Configuration.h
+Configuration_adv.h
+\src\lcd\HD44780\ultralcd_HD44780.cpp
+C:\Marlin\Marlin-2.0.7.2\Marlin\src\lcd\menu\menu_bed_corners.cpp
+C:\Marlin\Marlin-2.0.7.2\Marlin\src\lcd\menu\menu_info.cpp
+
+перезаписать
+\src\lcd\language\language_ru.h
+
+добавляем файл
+\src\pins\ramps\pins_MAGNUM_MKS.h
+
+
+
+-----------
+Для создания bin файла надо заменить файл
+C:\Users\work\.platformio\platforms\atmelavr\builder\main.py
+лежит здесь же
+(this crude hack seems to do it hack to build firmware.bin for arduino mega)
+-------------------
+Правильный загрузчик: https://github.com/rainerumrobotics/MicroBridge-Arduino-ATMega2560
+(сделал форк в Магнум https://github.com/Magnum3D/MicroBridge-Arduino-ATMega2560)
+Изменен адрес и его надо изменить в прошивке (Changed SD firmware update eeprom address to 0x3FF)
+
+Прошивать UBStiny нельзя, надо использовать Arduino UNO или по инструкции на гитхабе по ссылке выше.
+-----------
+Прошивка бутлоадера
+В ардуино выбираем плату Arduino Mega 2560 (DUAL SD Bootloader)
+Далее в меню Инструменты "Записать загрузчик)
+--------------
+Прошивка UNI 2020
+Кондер навесной с резета убрать для прошивки (не точно)
+Установить avrdude если его еще нет. 
+http://download.savannah.gnu.org/releases/avrdude/ - качаем отсюда
+например http://download.savannah.gnu.org/releases/avrdude/avrdude-6.3-mingw32.zip
+копируем например в папку c:\\dude 
+туда же копируем прошивку файл firmware.hex
+смотрим на каком порте появляется плата при  подключении, например 11
+avrdude -p atmega2560 -P com11 -c stk500v2 -b115200 -F -D -U flash:w:firmware.hex:i
